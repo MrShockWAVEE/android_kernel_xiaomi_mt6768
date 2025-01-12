@@ -469,8 +469,11 @@ static struct file_system_type sdcardfs_fs_type = {
 };
 MODULE_ALIAS_FS(SDCARDFS_NAME);
 
+extern bool is_legacy_rom;
+
 static int __init init_sdcardfs_fs(void)
 {
+	if (is_legacy_rom) {
 	int err;
 
 	pr_info("Registering sdcardfs " SDCARDFS_VERSION "\n");
@@ -492,15 +495,20 @@ out:
 		packagelist_exit();
 	}
 	return err;
+	} else {
+	return 0;
+	}
 }
 
 static void __exit exit_sdcardfs_fs(void)
 {
+	if (is_legacy_rom) {
 	sdcardfs_destroy_inode_cache();
 	sdcardfs_destroy_dentry_cache();
 	packagelist_exit();
 	unregister_filesystem(&sdcardfs_fs_type);
 	pr_info("Completed sdcardfs module unload\n");
+	}
 }
 
 /* Original wrapfs authors */

@@ -52,6 +52,10 @@ static void cqhci_crypto_program_key(struct cmdq_host *host,
 	msdc_clk_disable_unprepare(msdc_host);
 }
 
+#ifdef CONFIG_MMC_CRYPTO_LEGACY
+extern bool is_legacy_rom;
+#endif
+
 static int cqhci_crypto_keyslot_program(struct keyslot_manager *ksm,
 					const struct blk_crypto_key *key,
 					unsigned int slot)
@@ -81,9 +85,11 @@ static int cqhci_crypto_keyslot_program(struct keyslot_manager *ksm,
 
 	cfg.data_unit_size = data_unit_mask;
 #ifdef CONFIG_MMC_CRYPTO_LEGACY
+	if (is_legacy_rom) {
 	/* used fsrypt v2 in OTA fscrypt v1 environment */
 	if (key->hie_duint_size != 4096)
 		cfg.data_unit_size = 1;
+	}
 #endif
 
 	cfg.crypto_cap_idx = cap_idx;

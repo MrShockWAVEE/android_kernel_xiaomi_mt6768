@@ -103,6 +103,16 @@ static int kernel_init(void *);
 extern void init_IRQ(void);
 extern void radix_tree_init(void);
 
+bool is_legacy_rom = false;
+EXPORT_SYMBOL(is_legacy_rom);
+
+static int __init read_is_legacy_rom(char *s)
+{
+	strtobool(s, &is_legacy_rom);
+	return 1;
+}
+__setup("is_legacy_rom=", read_is_legacy_rom);
+
 /*
  * Debug helper: via this flag we know that we are in 'early bootup code'
  * where only the boot processor is running with IRQ disabled.  This means
