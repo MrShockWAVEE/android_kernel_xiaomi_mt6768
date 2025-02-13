@@ -1466,6 +1466,8 @@ static void kbd_keycode(unsigned int keycode, int down, int hw_raw)
 static void kbd_event(struct input_handle *handle, unsigned int event_type,
 		      unsigned int event_code, int value)
 {
+	//fixme
+	return;
 	/* We are called with interrupts disabled, just take the lock */
 	spin_lock(&kbd_event_lock);
 
