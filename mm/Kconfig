@@ -811,4 +811,4 @@ config PERCPU_STATS
 
 config DISABLE_OOM_KILLER
 	bool "Disable OOM Killer"
-	default y
+	default n
