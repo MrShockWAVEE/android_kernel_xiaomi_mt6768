@@ -67,7 +67,11 @@ $(warning Detected assembler with broken .inst; disassembly will be unreliable)
 endif
 
 ifeq ($(CONFIG_COMPAT_VDSO), y)
-  CROSS_COMPILE_COMPAT ?= $(CONFIG_CROSS_COMPILE_COMPAT:"%"=%)
+  ifeq ($(CROSS_COMPILE_COMPAT),)
+    CROSS_COMPILE_COMPAT ?= $(CONFIG_CROSS_COMPILE_COMPAT:"%"=%)
+  else
+    CROSS_COMPILE_COMPAT ?= $(CONFIG_CROSS_COMPILE_ARM32:"%"=%)
+  endif
 
   # Check that the user has provided a valid prefix for the 32-bit toolchain.
   # To prevent selecting the system $(cc-name) by default, the prefix is not

@@ -6,14 +6,18 @@
 
 ifeq ($(cc-name),clang)
   CC_ARM32 := $(CC) --target=arm-linux-gnueabi
-else
+else ifeq ($(CROSS_COMPILE_COMPAT),)
   CC_ARM32 := $(CROSS_COMPILE_COMPAT)$(cc-name)
+else
+  CC_ARM32 := $(CROSS_COMPILE_ARM32)$(cc-name)
 endif
 
 ifneq ($(LLVM),)
 LD_COMPAT ?= $(LD)
-else
+else ifeq ($(CROSS_COMPILE_COMPAT),)
 LD_COMPAT ?= $(CROSS_COMPILE_COMPAT)ld
+else
+LD_COMPAT ?= $(CROSS_COMPILE_ARM32)ld
 endif
 
 # Same as cc-*option, but using CC_ARM32 instead of CC

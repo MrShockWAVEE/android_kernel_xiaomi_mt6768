@@ -1365,6 +1365,11 @@ config CROSS_COMPILE_COMPAT
 	  Same as setting CROSS_COMPILE_COMPAT in the environment, but saved for
 	  future builds. The environment variable overrides this config option.
 
+config CROSS_COMPILE_ARM32
+	string "Legacy 32-bit toolchain prefix"
+	help
+	  If CROSS_COMPILE_COMPAT is not set a fallback to CROSS_COMPILE_ARM32 will occur.
+
 endmenu
 
 menu "Power management options"
